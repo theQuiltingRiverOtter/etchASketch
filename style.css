@@ -1,0 +1,30 @@
+html {
+    background-color: aquamarine;
+    height: 100vh;
+    widht: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+#gameScreen {
+    width: 500px;
+    height: 700px;
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#gameBoard {
+    width: 450px;
+    height: 600px;
+    margin: 20px;
+    background-color: darkslategray;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.row {
+    display: flex;
+}
