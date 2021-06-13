@@ -1,5 +1,7 @@
-const gameBoard = document.getElementById("gameBoard");
-let boardSize = Number(prompt("How many squares per side?"));
+const gameBoard = document.querySelector("#gameBoard");
+let boardSize = 16;
+let isBorders = false;
+let isRainbow = true;
 
 function makeCell(number, row) {
     const cell = document.createElement("div");
@@ -29,13 +31,95 @@ function makeGrid(rows, columns) {
         }
     }
 }
+function randomNumber() {
+    newNum = Math.floor(Math.random() * 256);
+    return newNum;
 
+}
+
+function colorChanger() {
+    let colorString = '';
+    if (isRainbow) {
+        let color = randomNumber();
+        let color2 = randomNumber();
+        let color3 = randomNumber();
+        colorString = "rgb(" + color + "," + color2 + "," + color3 + ")"
+    } else {
+        colorString = 'black';
+    }
+
+    return colorString;
+}
+
+function rainbowCells() {
+    isRainbow = true;
+}
+function blackCells() {
+    isRainbow = false;
+}
+
+function clearGrid() {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach(cell => {
+        cell.style.backgroundColor = 'white';
+    })
+}
+function etchASketch() {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach(cell => {
+        cell.addEventListener('mouseover', event => {
+            let color = colorChanger();
+            cell.style.backgroundColor = color;
+        });
+    })
+
+}
+
+function changeGrid() {
+    const rows = document.querySelectorAll('.row');
+    rows.forEach(row => {
+        row.innerHTML = '';
+    })
+    gameBoard.innerHTML = '';
+    boardSize = Number(prompt("Enter a number of squares"));
+    if (boardSize > 100) {
+        boardSize = 100;
+    } else if (boardSize < 5) {
+        boardSize = 5;
+    }
+    makeGrid(boardSize, boardSize);
+    etchASketch();
+}
+
+function makeBorders() {
+    const cells = document.querySelectorAll(".cell");
+    if (!isBorders) {
+        cells.forEach(cell => {
+            cell.style.border = '1px solid black';
+        })
+        isBorders = true;
+    } else {
+        cells.forEach(cell => {
+            cell.style.border = 'none';
+        })
+        isBorders = false;
+    }
+
+}
 
 
 makeGrid(boardSize, boardSize);
+etchASketch();
 
-document.querySelectorAll(".cell").forEach(item => {
-    item.addEventListener("mouseover", event => {
-        item.style.backgroundColor = 'red';
-    });
-});
+const gridClear = document.querySelector("#gridClear");
+const gridChange = document.querySelector("#gridChange");
+const borders = document.querySelector("#borders");
+const rainbow = document.querySelector("#rainbow");
+const black = document.querySelector("#black");
+
+
+gridClear.addEventListener("click", clearGrid);
+gridChange.addEventListener("click", changeGrid);
+borders.addEventListener("click", makeBorders);
+rainbow.addEventListener("click", rainbowCells);
+black.addEventListener("click", blackCells);
